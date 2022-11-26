@@ -1,16 +1,22 @@
-function getCardId(value) {
-   const strCardOrder = "'A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣','A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦','A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥','A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠'";
-   const arrCardOrder = strCardOrder.split(',');
-    for (let i = 0; i < arrCardOrder.length; i += 1) {
-
-        if (arrCardOrder[i].includes(value)) {
-            return i;
+function isPrime(n) {
+    let result;
+    for (let i = 2; i < n; i += 1) {
+        if (!(n % i)) {
+            console.log(`${n} divided to ${i}`);
+            result = true;
+            console.log(i);
+            break;
         }
     }
-   //console.log(arrCardOrder);
-}
+    return (result = (result) ? false : true);
+  }
 
 
-console.log(getCardId('A♣'));
-console.log(getCardId('2♣'));
-console.log(getCardId('K♠'));
+
+
+console.log(isPrime(4));
+console.log(isPrime(5));
+console.log(isPrime(6));
+console.log(isPrime(7));
+
+
