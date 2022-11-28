@@ -1,22 +1,11 @@
-function isPrime(n) {
-    let result;
-    for (let i = 2; i < n; i += 1) {
-        if (!(n % i)) {
-            console.log(`${n} divided to ${i}`);
-            result = true;
-            console.log(i);
-            break;
-        }
-    }
-    return (result = (result) ? false : true);
+function doubleArray(arr) {
+    const resLength = arr.length * 2;
+    //let result = Array(resLength).fill('');
+    //result = arr.slice();
+    //result += arr.slice();
+    const result = arr.concat(arr);
+    return result;
   }
 
 
-
-
-console.log(isPrime(4));
-console.log(isPrime(5));
-console.log(isPrime(6));
-console.log(isPrime(7));
-
-
+console.log(doubleArray(['Ace', 10, true]));
