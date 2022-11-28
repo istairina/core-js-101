@@ -1,14 +1,20 @@
-function toCsvText(arr) {
-  return arr.reduce((str, currrent) => {
-    //let str = accumul;
-    if (arr.indexOf(currrent) === 0) {
-      str += currrent.join(',');
-      str += '\n';
-    } else if (arr.indexOf(currrent) === (arr.length - 1)) {
-      str = `${str}++${currrent.join(',')}`;
-    } else {
-      str = `${str}++${currrent.join(',')}\n`;
-    }
-    return str;
-  }, '');
+function sortCitiesArray(arr) {
+  return arr.sort((a, b) => {
+    if (a.country > b.country) return 1;
+    if (a.country < b.country) return -1;
+    if (a.city > b.city) return 1;
+    if (a.city < b.city) return -1;
+    return 0;
+  });
+
 }
+
+console.log(sortCitiesArray([
+        { country: 'Russia',  city: 'Moscow' },
+        { country: 'Belarus', city: 'Minsk' },
+        { country: 'Poland',  city: 'Warsaw' },
+        { country: 'Russia',  city: 'Saint Petersburg' },
+        { country: 'Poland',  city: 'Krakow' },
+        { country: 'Belarus', city: 'Brest' }
+      ]));
+
