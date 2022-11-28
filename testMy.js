@@ -1,11 +1,14 @@
-function doubleArray(arr) {
-    const resLength = arr.length * 2;
-    //let result = Array(resLength).fill('');
-    //result = arr.slice();
-    //result += arr.slice();
-    const result = arr.concat(arr);
-    return result;
-  }
-
-
-console.log(doubleArray(['Ace', 10, true]));
+function toCsvText(arr) {
+  return arr.reduce((str, currrent) => {
+    //let str = accumul;
+    if (arr.indexOf(currrent) === 0) {
+      str += currrent.join(',');
+      str += '\n';
+    } else if (arr.indexOf(currrent) === (arr.length - 1)) {
+      str = `${str}++${currrent.join(',')}`;
+    } else {
+      str = `${str}++${currrent.join(',')}\n`;
+    }
+    return str;
+  }, '');
+}
