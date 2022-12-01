@@ -596,8 +596,17 @@ function selectMany(arr, childrenSelector) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexex) {
+  let currElem;
+  indexex.map((elem) => {
+    if (currElem) {
+      currElem = currElem[elem];
+    } else {
+      currElem = arr[elem];
+    }
+    return elem;
+  });
+  return currElem;
 }
 
 

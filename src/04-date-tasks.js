@@ -19,8 +19,8 @@
  *    'Tue, 26 Jan 2016 13:48:02 GMT' => Date()
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
-function parseDataFromRfc2822(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromRfc2822(value) {
+  return Date.parse(value);
 }
 
 /**
@@ -34,8 +34,8 @@ function parseDataFromRfc2822(/* value */) {
  *    '2016-01-19T16:07:37+00:00'    => Date()
  *    '2016-01-19T08:07:37Z' => Date()
  */
-function parseDataFromIso8601(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromIso8601(value) {
+  return Date.parse(value);
 }
 
 
@@ -53,8 +53,17 @@ function parseDataFromIso8601(/* value */) {
  *    Date(2012,1,1)    => true
  *    Date(2015,1,1)    => false
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  const year = new Date(date).getFullYear();
+  let res;
+  if ((year % 4)) {
+    res = false;
+  } else if ((year % 100)) {
+    res = true;
+  } else if ((year % 400)) {
+    res = false;
+  } else res = true;
+  return res;
 }
 
 
@@ -73,8 +82,52 @@ function isLeapYear(/* date */) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  // const difference = Date.parse(endDate) - Date.parse(startDate);
+  const difference = endDate - startDate;
+  let ms = 0;
+  let sec = 0;
+  let min = 0;
+  let hour = 0;
+  let res;
+  if (!(difference % 1000) || difference === 0) {
+    res = '.000';
+  } else {
+    ms = (difference % 1000);
+    switch (true) {
+      case (ms < 10):
+        res = `.00'${ms}`;
+        break;
+      case (ms < 100):
+        res = `.0${ms}`;
+        break;
+      default:
+        res = `.${ms}`;
+        break;
+    }
+  }
+
+  function convert(item, number) {
+    let timeName = item;
+    if (!(timeName % number) || timeName === 0) {
+      res = `:00${res}`;
+    } else {
+      timeName %= number;
+      if (item < 10) {
+        res = `:0${timeName}${res}`;
+      } else {
+        res = `:${timeName}${res}`;
+      }
+    }
+  }
+
+  sec = Math.trunc(difference / 1000);
+  convert(sec, 60);
+  min = Math.trunc(sec / 60);
+  convert(min, 60);
+  hour = Math.trunc(min / 60);
+  convert(hour, 24);
+  return res.slice(1);
 }
 
 
