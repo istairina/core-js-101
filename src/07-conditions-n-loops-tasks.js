@@ -74,8 +74,14 @@ function getFactorial(n) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {
+  let start = n1;
+  let result = 0;
+  while (start <= n2) {
+    result += start;
+    start += 1;
+  }
+  return result;
 }
 
 
@@ -94,8 +100,12 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  let result = false;
+  if (a + b > c && a + c > b && b + c > a) {
+    result = true;
+  }
+  return result;
 }
 
 
@@ -131,8 +141,13 @@ function isTriangle(/* a, b, c */) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  let result = false;
+  if (((rect2.width - rect1.top) >= 0) && ((rect2.height - rect1.left) >= 0)
+    && ((rect1.width - rect2.top) >= 0) && ((rect1.height - rect2.left) >= 0)) {
+    result = true;
+  }
+  return result;
 }
 
 
@@ -162,8 +177,21 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  let pointX = point.x;
+  let pointY = point.y;
+  if (circle.center.x !== 0 || circle.center.y !== 0) {
+    pointX += 0 - circle.center.x;
+    pointY += 0 - circle.center.y;
+  }
+  let result = false;
+  const x2 = pointX * pointX;
+  const y2 = pointY * pointY;
+  const r2 = circle.radius * circle.radius;
+  if (x2 + y2 < r2) {
+    result = true;
+  }
+  return result;
 }
 
 
@@ -178,8 +206,35 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const arr = str.split('');
+  let result;
+  function deleteChar() {
+    let resFunc;
+    if (arr.length === 0) {
+      result = null;
+      resFunc = true;
+    }
+    const char = arr[0];
+    let d = false;
+    for (let i = arr.length - 1; i > 0; i -= 1) {
+      if (char === arr[i]) {
+        arr.splice(i, 1);
+        d = true;
+      }
+    }
+    if (d === true) {
+      arr.splice(0, 1);
+    } else {
+      result = char;
+      resFunc = true;
+    }
+    if (resFunc !== true) {
+      deleteChar();
+    }
+  }
+  deleteChar();
+  return result;
 }
 
 
@@ -205,8 +260,12 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let result = '';
+  result += (isStartIncluded === true) ? '[' : '(';
+  result += (a < b) ? (`${a}, ${b}`) : (`${b}, ${a}`);
+  result += (isEndIncluded === true) ? ']' : ')';
+  return result;
 }
 
 
@@ -222,8 +281,9 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  const strArr = str.split('').reverse();
+  return strArr.join('');
 }
 
 
@@ -239,8 +299,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return String(num).split('').reverse().join('');
 }
 
 
@@ -264,9 +324,24 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+
+function isCreditCardNumber(ccn) {
+  const arrCcn = String(ccn).split('').reverse();
+  const newArr = arrCcn.map((elem, i) => {
+    let newElem = elem;
+    if ((i % 2) !== 0) {
+      newElem *= 2;
+      if (newElem > 9) {
+        const arrElem = String(newElem).split('');
+        newElem = Number(arrElem[0]) + Number(arrElem[1]);
+      }
+    }
+    return newElem;
+  });
+  const sumDigits = newArr.reduce((sum, elem) => sum + Number(elem), 0);
+  return !(sumDigits % 10);
 }
+
 
 /**
  * Returns the digital root of integer:
