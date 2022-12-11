@@ -357,8 +357,13 @@ function isCreditCardNumber(ccn) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  if (num > 9) {
+    const arrNum = String(num).split('');
+    const numNew = arrNum.reduce((sum, elem) => sum + Number(elem), 0);
+    return getDigitalRoot(Number(numNew));
+  }
+  return Number(num);
 }
 
 
@@ -383,8 +388,25 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const arrStr = str.split('');
+  const obj = {
+    ']': '[',
+    ')': '(',
+    '}': '{',
+    '>': '<',
+  };
+  const tempArr = [];
+  for (let i = 0; i < arrStr.length; i += 1) {
+    if (arrStr[i] === '[' || arrStr[i] === '(' || arrStr[i] === '{' || arrStr[i] === '<') {
+      tempArr.push(arrStr[i]);
+    } else if (tempArr[tempArr.length - 1] === obj[arrStr[i]]) {
+      tempArr.pop();
+    } else {
+      return false;
+    }
+  }
+  return tempArr.length === 0;
 }
 
 
@@ -408,8 +430,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -425,8 +447,26 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const arrSplitPathes = [];
+  const arrResult = [];
+  for (let i = 0; i < pathes.length; i += 1) {
+    const temp = pathes[i].split('/');
+    arrSplitPathes.push(temp);
+  }
+  for (let i = 0; i < arrSplitPathes[0].length; i += 1) {
+    const tempArr = [];
+    for (let k = 0; k < arrSplitPathes.length; k += 1) {
+      if (arrSplitPathes[0][i] === arrSplitPathes[k][i]) {
+        tempArr.push(arrSplitPathes[0][i]);
+      }
+    }
+    if (tempArr.length === pathes.length) {
+      arrResult.push(arrSplitPathes[0][i]);
+    } else break;
+  }
+  arrResult.push('');
+  return arrResult.join('/');
 }
 
 
@@ -448,8 +488,31 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const arrLength = m1.length;
+  let result = [];
+  if (!m1[0].length) {
+    let sum = 0;
+    for (let i = 0; i < arrLength; i += 1) {
+      sum += m1[i] * m2[i];
+    }
+    result[0] = sum;
+  } else {
+    result = new Array(arrLength);
+    for (let i = 0; i < arrLength; i += 1) {
+      result[i] = new Array(arrLength);
+    }
+    for (let k = 0; k < m2[0].length; k += 1) {
+      for (let i = 0; i < arrLength; i += 1) {
+        let sum = 0;
+        for (let j = 0; j < m2.length; j += 1) {
+          sum += m1[i][j] * m2[j][k];
+        }
+        result[i][k] = sum;
+      }
+    }
+  }
+  return result;
 }
 
 
@@ -483,8 +546,37 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  let result;
+  for (let i = 0; i < position.length; i += 1) {
+    const k = 0;
+    if (position[i][k] === position[i][k + 1] && position[i][k] === position[i][k + 2]
+      && position[i][k] !== undefined) {
+      result = position[i][k];
+      break;
+    }
+    if (position[k][i] === position[k + 1][i] && position[k][i] === position[k + 2][i]
+      && position[k][i] !== undefined) {
+      result = position[k][i];
+      break;
+    }
+  }
+
+  const index = 0;
+  if (position[index][index] !== undefined && result === undefined) {
+    if (position[index][index] === position[index + 1][index + 1]
+      && position[index][index] === position[index + 2][index + 2]) {
+      result = position[index][index];
+    }
+  }
+
+  if (position[index][index + 2] !== undefined && result === undefined) {
+    if (position[index][index + 2] === position[index + 1][index + 1]
+      && position[index][index + 2] === position[index + 2][index]) {
+      result = position[index][index + 2];
+    }
+  }
+  return result;
 }
 
 

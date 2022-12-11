@@ -1,19 +1,25 @@
-function isCreditCardNumber(ccn) {
-  const arrCcn = String(ccn).split('').reverse();
-  const newArr = arrCcn.map((elem, i) => {
-    let newElem = elem;
-    if ((i % 2) !== 0) {
-      newElem *= 2;
-      if (newElem > 9) {
-        const arrElem = String(newElem).split('');
-        newElem = Number(arrElem[0]) + Number(arrElem[1]);
-      }
+function evaluateTicTacToePosition(position) {
+  let result = undefined;
+  for (let i = 0; i < position.length; i++) {
+    if (position[i][0] === position[i][1] && position[i][0] === position[i][2]) {
+      result = position[i][0];
+      break;
     }
-    return newElem;
-  });
-  const sum = newArr.reduce((sum, elem) => sum + Number(elem), 0);
-  return !(sum % 10);
+    if (position[0][i] === position[1][i] && position[0][i] === position[2][i]) {
+      result = position[0][i];
+      break;
+    }
+  }
+
+  if (position[0][0] != undefined && result === undefined) {
+    if (position[0][0] === position[1][1] && position[0][0] === position[2][2]) {
+      result = position[0][0];
+    }
+  }
+  return result;
 }
 
-console.log(isCreditCardNumber(79927398713));
-console.log(isCreditCardNumber(4571234567890111));
+console.log(evaluateTicTacToePosition([[ 'X',   ,'0' ], [    ,'X','0' ], [    ,   ,'X' ]]));
+console.log(evaluateTicTacToePosition([[ '0','0','0' ], [    ,'X',    ], [ 'X',   ,'X' ]]));
+
+console.log(evaluateTicTacToePosition([[ '0','X','0' ], [    ,'X',    ], [ 'X','0','X' ]]));
