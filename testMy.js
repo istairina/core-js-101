@@ -1,25 +1,30 @@
-function evaluateTicTacToePosition(position) {
-  let result = undefined;
-  for (let i = 0; i < position.length; i++) {
-    if (position[i][0] === position[i][1] && position[i][0] === position[i][2]) {
-      result = position[i][0];
-      break;
+function retry(func, attempts) {
+  console.log(`attemp ${attempts}`);
+  let att = attempts;
+  return () => {
+    while (att > 0) {
+      console.log(att);
+      let errStatus = false;
+      try {
+        console.log('try');
+        func();
+      } catch (err) {
+        console.log('error');
+        errStatus = true;
+        att -= 1;
+      }
+      if (errStatus === false) {
+        att = 0;
+      }
     }
-    if (position[0][i] === position[1][i] && position[0][i] === position[2][i]) {
-      result = position[0][i];
-      break;
-    }
-  }
-
-  if (position[0][0] != undefined && result === undefined) {
-    if (position[0][0] === position[1][1] && position[0][0] === position[2][2]) {
-      result = position[0][0];
-    }
-  }
-  return result;
+    return func;
+  };
 }
 
-console.log(evaluateTicTacToePosition([[ 'X',   ,'0' ], [    ,'X','0' ], [    ,   ,'X' ]]));
-console.log(evaluateTicTacToePosition([[ '0','0','0' ], [    ,'X',    ], [ 'X',   ,'X' ]]));
 
-console.log(evaluateTicTacToePosition([[ '0','X','0' ], [    ,'X',    ], [ 'X','0','X' ]]));
+
+const attempt = 0, retryer = retry(() => {
+  if (++attempt % 2) throw new Error('test');
+  else return attempt;
+  }, 2);
+  console.log(retryer());
