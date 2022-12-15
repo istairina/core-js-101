@@ -1,30 +1,17 @@
-function retry(func, attempts) {
-  console.log(`attemp ${attempts}`);
-  let att = attempts;
+function getIdGenerator(startFrom) {
+  let start = startFrom - 1;
   return () => {
-    while (att > 0) {
-      console.log(att);
-      let errStatus = false;
-      try {
-        console.log('try');
-        func();
-      } catch (err) {
-        console.log('error');
-        errStatus = true;
-        att -= 1;
-      }
-      if (errStatus === false) {
-        att = 0;
-      }
-    }
-    return func;
-  };
+    start += 1;
+    return start;
+  }
 }
 
 
-
-const attempt = 0, retryer = retry(() => {
-  if (++attempt % 2) throw new Error('test');
-  else return attempt;
-  }, 2);
-  console.log(retryer());
+const getId4 = getIdGenerator(4);
+const getId10 = getIdGenerator(10);
+console.log(getId4()); // 4
+console.log(getId10()); // 10
+console.log(getId4()); // 5
+console.log(getId4()); // 6
+console.log(getId4()); // 7
+console.log(getId10()); // 11
