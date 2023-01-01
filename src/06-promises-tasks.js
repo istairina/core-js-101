@@ -56,15 +56,16 @@ function willYouMarryMe(isPositiveAnswer) {
  *    })
  *
  */
-function processAllPromises(array) {
-  const res = [];
-  array.map((elem) => {
-    elem.then((tes) => {
-      res.push(tes);
-    });
-    return elem;
-  });
-  return Promise.resolve(res);
+function processAllPromises(/* array */) {
+  throw new Error('Not implemented');
+  // const res = [];
+  // array.map((elem) => {
+  //   elem.then((tes) => {
+  //     res.push(tes);
+  //   });
+  //   return elem;
+  // });
+  // return Promise.resolve(res);
 }
 
 /**
@@ -86,9 +87,8 @@ function processAllPromises(array) {
  *    })
  *
  */
-function getFastestPromise(/* array */) {
-  throw new Error('Not implemented');
-  // return Promise.race(array);
+function getFastestPromise(array) {
+  return Promise.race(array);
 }
 
 /**
